@@ -3,8 +3,8 @@
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center; /* box jo hai vo center mai aajya */
-    align-items: center;  /* box ke andar ka content [hello] center mai aajya */
+    justify-content: center; /* to place a box in center */
+    align-items: center;  /* to place a box content in center */
 }
 .joinContainer{
     /* border: 2px solid white; */
@@ -12,7 +12,7 @@
     height: 50%;
     display: flex;
     flex-direction: column;
-    align-items: center;  /* box ke andar ka content [hello] center mai aajya */
+    align-items: center;  /* to place a box content [hello] in center */
 }
 .joinContainer > h1{
     color: white;

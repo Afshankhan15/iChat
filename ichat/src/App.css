@@ -3,8 +3,7 @@ body{
 }
 /* media query --> FOR RESPONSIVE PAGE */
 /* Apply styles for aspect ratio less than or equal to 7:10  */
-/* if width = 7 , height = 10 means 700px*1000px dimension se thodi si bhi dim. kam hui then
-hum jo ab PROPERTY mention krege vo hoga ok */
+/* if width = 7 , height = 10 means if dimension is less than or equal to 700px*1000px dimension then this property will apply */
 @media (max-aspect-ratio: 7/10) {
     .joinContainer > h1 {
       color: rgb(28, 244, 13);

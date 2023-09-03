@@ -13,7 +13,7 @@
 }
 .header{
     background-color: crimson;
-    height: 15%; /* box ke andar ka height 15% hai kyuki div>div>div */
+    height: 15%; 
 }
 .header > h2{
     color: rgba(255, 255, 255, 0.763);
@@ -31,7 +31,7 @@
 .inputBox{
    /* border: 0.2vmax solid black; */
    height: 15%;
-   display: flex; /* jisse inputChat and InputBtn sde mai aajaye horizontally*/
+   display: flex; /* to place inputChat and InputBtn horizontally*/
 
 }
 #inputChat{

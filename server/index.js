@@ -1,60 +1,67 @@
 const http = require("http");
-const express = require("express")
+const express = require("express");
 const cors = require("cors"); // cors : used for inter communication b/w URL
 const socketIO = require("socket.io");
 
 const app = express();
-const port = 4500 || process.emv.PORT; // mtlb localhost 4500 pe ni chle to vo dsura lele
+const port = 4500 || process.emv.PORT; // means if localhost not run on 4500 then take another PORT
 
 const usersArray = [{}]; // array of objects
 
 app.use(cors());
 
-app.get("/",(req,res) => {
-    res.send("hello server is working,Afshan");
-})
+app.get("/", (req, res) => {
+  res.send("hello server is working, Afshan");
+});
 
 const server = http.createServer(app);
-// io -> ek pura CIRCUIT hai && socket --> alg-2 USERs hai
-//circiut bnaya io ka [SERVER SIDE EXECUTE HORA HAI YE]
+
+// io -> 1 entire CIRCUIT && socket --> different USERS on it
+// made circiut of io [SERVER SIDE is being EXECUTED]
 const io = socketIO(server);
-io.on("connection",(socket) => { // jse hi io circuit ON hoga it will connect and "new connection" display hojyga cmd m
-    console.log("New Connection");  // NC jb display hoga cmd m jb SOCKET SERVER se connect hoga
-    
-    // neeche wale on -> ka mtlb DATA RECEIVE KRNA jo EMIT ne SEND kiya hai wo client side se
-    socket.on("joined" , ({user}) => {  // jb USER join krega ichat
-           usersArray[socket.id] = user; // array ke id point pe user save hojyga --> har socket/user ki 1 unique id hoti hai automatically
-           console.log(`${user} has joined`); // ye SERVER -> cmd pe show hora hai
-           
-           // broadcast --> jis user ne msg kiya hai usko chodke baki sb pe msg jayega [SEND]
-         socket.broadcast.emit("userJoined", {user:"Admin",message:`${usersArray[socket.id]} has joined`}); // [but ye server pe show hora hai like Afshan has joined]
-          
-         // data send [ye CLIENT SIDE CONSOLE MEIN SHOW HORA HAI --> Admin welcome to iChat AFSHAN KHAN]
-    socket.emit("welcome", {user:"Admin",message:`welcome to iChat ${usersArray[socket.id]}`} );// event=welcome to welcome hi hona chye client side bhi
-    })
 
+io.on("connection", (socket) => {
+  // when io circuit ON then, it will connect and "new connection" will display on server console
+  console.log("New Connection"); // New Connection will display on server console when it connects to SOCKET SERVER
 
-    // event = mesaage [jo hum exchange krege msgs b/w diff users/sockets]
-    socket.on("message", ({message , id}) => { // sbse phle receive krega server msg ko and then SERVER ENTIRE CIRCUIT KO MSG BEJDEA JO AFSHAN NE SEND KIYA THA 
-       // sbko bejdege pure CIRCUIT ko
-       console.log("Received message:", message);// msg shown on cmd --> SERVER SIDE , message = "Hi guys"
-       io.emit("sendMessage", {user: usersArray[id], message, id});
-    })
+  // here socket.on means -> DATA is RECEIVED from CLIENT SIDE that is sent using EMIT
+  socket.on("joined", ({ user }) => {
+    // when USER join the ichat
+    usersArray[socket.id] = user; // will save the USER at array id point  --> every socket/user has 1 unique id automatically
+    console.log(`${user} has joined`); // will show on SERVER console
 
+    // broadcast --> if afshan JOINED iChat, then server send JOINED msg to everyone except Afshan
+    socket.broadcast.emit("userJoined", {
+      user: "Admin",
+      message: `${usersArray[socket.id]} has joined`,
+    }); // [but it is showing on server side like Afshan has joined]
 
+    // data send [this will show on CLIENT SIDE CONSOLE --> Admin welcome to iChat AFSHAN KHAN]
+    socket.emit("welcome", {
+      user: "Admin",
+      message: `welcome to iChat ${usersArray[socket.id]}`,
+    }); // event = welcome
+  });
 
+  // event = mesaage [when we exchange msgs b/w diff users/sockets]
+  socket.on("message", ({ message, id }) => {
+    // first of all, SERVER will receive the user msg and then SERVER will SEND the Afshan[USER] msg to ENTIRE CIRCUIT
+    // send msg to entire CIRCUIT
+    console.log("Received message:", message); // msg will be shown on SERVER side console , ---> message = "Hi guys"
+    io.emit("sendMessage", { user: usersArray[id], message, id });
+  });
 
-    // agar DIS-CONNECT HAI [phle disconnect server m aayga then go toclient side]
-    socket.on("disconnected", () => {
-        // ab hum dusro ko btadege ki is particular user ne left krdi chat
-        socket.broadcast.emit("leave", {user:"Admin", message: `${usersArray[socket.id]}user has left`});
-        console.log("user left"); // server cmd mein show hora h ye
-    }) 
-})
+  // 1) if User DIS-CONNECTs then socket.emit in client side send msg to server socket.on
+  socket.on("disconnected", () => {
+    // 2) and then, SERVER send broadcast msg to everyone that --> ex: [John has left]
+    socket.broadcast.emit("leave", {
+      user: "Admin",
+      message: `${usersArray[socket.id]}user has left`,
+    });
+    console.log("user left"); // shown on server console
+  });
+});
 
-  
-
-
-server.listen(port,() =>{
-    console.log(`server is working on http://localhost:${port}`);
-})
+server.listen(port, () => {
+  console.log(`server is working on http://localhost:${port}`);
+});
