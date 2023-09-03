@@ -1,0 +1,59 @@
+.chatPage{
+    background-color: rgb(37, 36, 36);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+.chatContainer{
+    background-color: white;
+    height: 60%;
+    width: 50%;
+}
+.header{
+    background-color: crimson;
+    height: 15%; /* box ke andar ka height 15% hai kyuki div>div>div */
+}
+.header > h2{
+    color: rgba(255, 255, 255, 0.763);
+    text-align: center;
+    margin: 1vmax;
+    padding: 1vmax;
+}
+
+.chatBox{
+ border: 0.2vmax solid black;
+ height: 70%;
+ box-sizing: border-box;
+}
+
+.inputBox{
+   /* border: 0.2vmax solid black; */
+   height: 15%;
+   display: flex; /* jisse inputChat and InputBtn sde mai aajaye horizontally*/
+
+}
+#inputChat{
+    width: 80%;
+    background-color: white;
+    padding: 1vmax;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    font-size: 1.2vmax;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.inputBtn{
+     width: 20%;
+     background-color: crimson;
+     color: white;
+     border: none;
+     cursor: pointer;
+     transition: all 0.3s;
+}
+.inputBtn:hover{
+    background-color: rgb(154, 16, 44);
+}
+
+
