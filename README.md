@@ -39,11 +39,6 @@ To get started with iChat on your local machine, follow these steps:
 3. Start the development server
   `npm start`
 
-## Contact
-
-Afshan Khan - [LinkedIn](https://www.linkedin.com/in/afshan-khan252)  
-Project Link: [https://github.com/Afshankhan15/iChat](https://github.com/Afshankhan15/iChat)
-
 ## Contributing
 
 We welcome contributions to iChat! If you'd like to contribute.
